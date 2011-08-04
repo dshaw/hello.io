@@ -1,0 +1,11 @@
+{
+    "name": "hello.io"
+  , "version": "0.0.2"
+  , "description": "Simple Socket.io server for testing"
+  , "author": "Daniel Shaw <dshaw@dshaw.com>"
+  , "dependencies": {
+      "socket.io" : "0.7.7"
+    }
+  , "main": "./index.js"
+  , "engines": { "node": ">= 0.4.0" }
+}
