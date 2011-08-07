@@ -1,6 +1,6 @@
 var http = require('http')
-  , io = require('socket.io')
-  , RedisStore = io.RedisStore
+  , sio = require('socket.io')
+  , RedisStore = sio.RedisStore
   , port = process.argv[2] || 9000
 
   , server = http.createServer(function(req, res){
@@ -12,11 +12,11 @@ var http = require('http')
         , "window.onload = function () {\n"
         , "  var socket = io.connect(),\n"
         , "    hello = document.getElementById('hello'),\n"
-        , "    content = function (msg) { document.getElementById('hello').innerHTML += msg; return msg; };\n"
+        , "    log = function (msg) { hello.innerHTML += msg; console.log(msg); };\n"
         , "  hello.onkeyup = function (e) { socket.send(String.fromCharCode(e.keyCode)[(e.shiftKey) ? 'toLocaleUpperCase' : 'toLocaleLowerCase']()); };\n"  
-        , "  socket.on('message', function () { console.log(content(' message ')); });\n"
-        , "  ['connecting','connect','disconnect'].forEach(function(event) {\n"
-        , "    socket.on(event, function () { console.log(content(' '+event+' ')); });\n"
+        , "  socket.on('message', function () { log(' message '\n); });\n"
+        , "  ['connecting','connect','connect_failed','disconnect'].forEach(function(event) {\n"
+        , "    socket.on(event, function () { log(' '+event+' '\n); });\n"
         , "  });\n"
         , "};\n"
         , "</script>\n"
@@ -29,15 +29,15 @@ server.listen(port);
 
 server.on('listening', function () { console.log('Hello.io listening on :%d', port) });
 
-var socket = io.listen(server);
+var io = sio.listen(server);
 
-socket.configure(function () {
-  socket.set('store', new RedisStore);
+io.configure(function () {
+  io.set('store', new RedisStore);
 });
 
-socket.on('connection', function (client) {
+io.on('connection', function (socket) {
   console.log('connected');
-  client.on('message', function () { console.log('message') });
-  client.on('disconnect', function () { console.log('disconnected') });
+  socket.on('message', function () { console.log('message') });
+  socket.on('disconnect', function () { console.log('disconnected') });
 });
 
