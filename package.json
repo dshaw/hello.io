@@ -1,10 +1,10 @@
 {
     "name": "hello.io"
-  , "version": "0.0.2"
+  , "version": "0.0.3"
   , "description": "Simple Socket.io server for testing"
-  , "author": "Daniel Shaw <dshaw@dshaw.com>"
+  , "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)"
   , "dependencies": {
-      "socket.io" : "https://github.com/dshaw/socket.io/tarball/dev%2Fredis"
+      "socket.io" : ">= 0.8.7"
     }
   , "main": "./index.js"
   , "engines": { "node": ">= 0.4.0" }
